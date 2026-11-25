@@ -1,0 +1,1097 @@
+{
+  "metrics": [
+    {
+      "id": "programmes",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total community programmes / activities",
+      "unit": "Number",
+      "range": "E:P (row 9)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "outreach",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total Individuals reached (Outreach)",
+      "unit": "Headcount",
+      "range": "E:P (row 10)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "beneficiary_attendance",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total beneficiaries / recipients supported",
+      "unit": "Headcount",
+      "range": "E:P (row 11)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "beneficiary_people",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total beneficiaries / recipients supported",
+      "unit": "People",
+      "range": "E:P (row 12)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Workbook sums monthly people counts; not annual unique people."
+    },
+    {
+      "id": "outreach_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Outreach · Male",
+      "unit": "Headcount",
+      "range": "G,I,…,AC (row 17)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Outreach · Female",
+      "unit": "Headcount",
+      "range": "H,J,…,AD (row 17)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (headcount) · Male",
+      "unit": "Headcount",
+      "range": "G,I,…,AC (row 18)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (headcount) · Female",
+      "unit": "Headcount",
+      "range": "H,J,…,AD (row 18)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_people_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (people) · Male",
+      "unit": "People",
+      "range": "G,I,…,AC (row 19)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (people) · Female",
+      "unit": "People",
+      "range": "H,J,…,AD (row 19)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "outreach_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Children 0-14",
+      "unit": "Headcount",
+      "range": "D:O (row 24)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Youth 15-35",
+      "unit": "Headcount",
+      "range": "D:O (row 25)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Adults 36-49",
+      "unit": "Headcount",
+      "range": "D:O (row 26)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Young Seniors 50-64",
+      "unit": "Headcount",
+      "range": "D:O (row 27)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Seniors ≥65",
+      "unit": "Headcount",
+      "range": "D:O (row 28)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Children 0-14",
+      "unit": "Headcount",
+      "range": "D:O (row 32)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Youth 15-35",
+      "unit": "Headcount",
+      "range": "D:O (row 33)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Adults 36-49",
+      "unit": "Headcount",
+      "range": "D:O (row 34)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Young Seniors 50-64",
+      "unit": "Headcount",
+      "range": "D:O (row 35)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Seniors ≥65",
+      "unit": "Headcount",
+      "range": "D:O (row 36)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_people_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Children 0-14",
+      "unit": "People",
+      "range": "D:O (row 40)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Youth 15-35",
+      "unit": "People",
+      "range": "D:O (row 41)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Adults 36-49",
+      "unit": "People",
+      "range": "D:O (row 42)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Young Seniors 50-64",
+      "unit": "People",
+      "range": "D:O (row 43)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Seniors ≥65",
+      "unit": "People",
+      "range": "D:O (row 44)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "eco_points",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Number of collection / Eco points",
+      "unit": "Number",
+      "range": "E:P (row 49)",
+      "rule": "december",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_education",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Eco-Mission educational activities / sessions",
+      "unit": "Number",
+      "range": "E:P (row 50)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_education_reach",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Participants / persons reached",
+      "unit": "Number",
+      "range": "E:P (row 51)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_events",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Eco-Point activities / collection events",
+      "unit": "Number",
+      "range": "E:P (row 52)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_reach",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Residents / persons reached (eco point)",
+      "unit": "Number",
+      "range": "E:P (row 53)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "recycle_0",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Paper",
+      "unit": "kg",
+      "range": "E:P (row 58)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_1",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Plastic",
+      "unit": "kg",
+      "range": "E:P (row 59)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_2",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Glass",
+      "unit": "kg",
+      "range": "E:P (row 60)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_3",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Metal",
+      "unit": "kg",
+      "range": "E:P (row 61)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_4",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "E-waste",
+      "unit": "kg",
+      "range": "E:P (row 62)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_5",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Others (please specify)",
+      "unit": "kg",
+      "range": "E:P (row 63)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "active_volunteers",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total active volunteers",
+      "unit": "Number",
+      "range": "E:P (row 9)",
+      "rule": "december",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_hours",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total volunteer hours",
+      "unit": "Hours",
+      "range": "E:P (row 10)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "training_hours",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total volunteer training hours",
+      "unit": "Hours",
+      "range": "E:P (row 11)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_0_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Children 0-14 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 21)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_0_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Children 0-14 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 21)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_1_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Youth 15-35 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 22)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_1_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Youth 15-35 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 22)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_2_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Adults 36-49 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 23)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_2_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Adults 36-49 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 23)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_3_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Young Seniors 50-64 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 24)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_3_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Young Seniors 50-64 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 24)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_4_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Seniors ≥65 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 25)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_4_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Seniors ≥65 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 25)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "advocacy_activities",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Annual summary",
+      "label": "Total knowledge-sharing / advocacy activities",
+      "unit": "Number",
+      "range": "C (row 9)",
+      "rule": "annual",
+      "source": "Verified advocacy records",
+      "note": ""
+    },
+    {
+      "id": "advocacy_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Annual summary",
+      "label": "Total persons reached, if available",
+      "unit": "Number",
+      "range": "C (row 10)",
+      "rule": "annual",
+      "source": "Verified advocacy records",
+      "note": ""
+    },
+    {
+      "id": "channel_0_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Newsletter · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 14)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_0_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Newsletter · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 14)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_1_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Email / direct communication · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 15)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_1_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Email / direct communication · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 15)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_2_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Survey · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 16)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_2_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Survey · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 16)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_3_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Physical event / workshop · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 17)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_3_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Physical event / workshop · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 17)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_4_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Public talk / seminar · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 18)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_4_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Public talk / seminar · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 18)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_5_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Website / digital platform · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 19)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_5_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Website / digital platform · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 19)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_6_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Social media · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 20)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_6_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Social media · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 20)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_7_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Annual meeting / forum · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 21)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_7_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Annual meeting / forum · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 21)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_8_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Other (please specify) · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 22)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_8_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Other (please specify) · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 22)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "collaborations",
+      "section": "Collaborative Programmes",
+      "group": "Annual summary",
+      "label": "Total jointly delivered programmes / initiatives",
+      "unit": "Number",
+      "range": "D (row 9)",
+      "rule": "annual",
+      "source": "External collaboration listing",
+      "note": ""
+    }
+  ],
+  "records": [
+    {
+      "id": "list_0",
+      "section": "Community Care",
+      "label": "Selected programme highlights",
+      "range": "B68:G72",
+      "fields": [
+        "Programme / Activity",
+        "Outreach",
+        "Beneficiaries",
+        "Brief Description",
+        "Key Outcome / Impact",
+        "Initiative Duration"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_1",
+      "section": "Community Care",
+      "label": "Community investment / charitable expenditure",
+      "range": "A76:C78",
+      "fields": [
+        "Amount (SGD)",
+        "Brief Description / Remarks"
+      ],
+      "limit": 3
+    },
+    {
+      "id": "list_2",
+      "section": "Volunteers",
+      "label": "Selected volunteer / training highlights",
+      "range": "B30:E34",
+      "fields": [
+        "Activity / Training",
+        "No. of Volunteers",
+        "Brief Description",
+        "Key Outcome"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_3",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Selected knowledge sharing / advocacy highlights",
+      "range": "B27:F31",
+      "fields": [
+        "Activity / Initiative",
+        "Target Audience",
+        "Topic / Description",
+        "Participants Reached / Outcome",
+        "Initiative Duration"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_4",
+      "section": "Collaborative Programmes",
+      "label": "Selected collaborative programmes",
+      "range": "B13:E17",
+      "fields": [
+        "Programme / Initiative",
+        "Partner Organisation(s)",
+        "Brief Description (Case Study)",
+        "Beneficiaries / Key Outcome (Case Study)"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_5",
+      "section": "Partnerships",
+      "label": "Active partner organisations",
+      "range": "B10:D29",
+      "fields": [
+        "Partner Name",
+        "Start Date"
+      ],
+      "limit": 20
+    },
+    {
+      "id": "list_6",
+      "section": "Partnerships",
+      "label": "Awards & accolades",
+      "range": "B33:D39",
+      "fields": [
+        "Award / Recognition",
+        "Awarding Organisation",
+        "Date"
+      ],
+      "limit": 7
+    },
+    {
+      "id": "list_7",
+      "section": "Stakeholder Engagement",
+      "label": "Employees",
+      "range": "A9:D17",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_8",
+      "section": "Stakeholder Engagement",
+      "label": "Volunteers",
+      "range": "A19:D27",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_9",
+      "section": "Stakeholder Engagement",
+      "label": "Beneficiaries / Recipients",
+      "range": "A29:D37",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_10",
+      "section": "Stakeholder Engagement",
+      "label": "Donors / Sponsors",
+      "range": "A39:D47",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_11",
+      "section": "Stakeholder Engagement",
+      "label": "Partners",
+      "range": "A49:D57",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_12",
+      "section": "Stakeholder Engagement",
+      "label": "Government / Regulators",
+      "range": "A59:D67",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_13",
+      "section": "Stakeholder Engagement",
+      "label": "Community / General Public",
+      "range": "A69:D77",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_14",
+      "section": "Stakeholder Engagement",
+      "label": "Others",
+      "range": "A79:D87",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_15",
+      "section": "Community Care",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A83",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_16",
+      "section": "Community Care",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A90",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_17",
+      "section": "Community Care",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A97",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_18",
+      "section": "Volunteers",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A39",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_19",
+      "section": "Volunteers",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A46",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_20",
+      "section": "Volunteers",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A53",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_21",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A36",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_22",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A43",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_23",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A50",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_24",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A22",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_25",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A29",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_26",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A36",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    }
+  ],
+  "sections": [
+    "Community Care",
+    "Volunteers",
+    "Knowledge Sharing & Advocacy",
+    "Collaborative Programmes",
+    "Stakeholder Engagement",
+    "Partnerships"
+  ]
+}

@@ -1,0 +1,1108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESGHub | Community Care</title><style>
+:root{--ink:#18352f;--muted:#64746f;--line:#dfe7e2;--green:#146956;--bg:#f5f8f6}*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button,select{cursor:pointer}button{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:9px 13px}button.primary{background:var(--green);color:white;border-color:var(--green)}button:hover{border-color:var(--green)}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #a4d6c6;outline-offset:2px}header{background:#103f34;color:white;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px}header h1{font-size:24px;margin:0}header p{margin:2px 0;color:#c3dfd4;font-size:13px}.tag{border:1px solid #8db4a4;border-radius:5px;padding:5px 9px;font-size:12px;white-space:nowrap}.layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 86px)}aside{padding:22px 12px;background:white;border-right:1px solid var(--line)}aside button{display:block;width:100%;text-align:left;border:0;padding:12px 15px;margin:3px 0;background:transparent}aside button.active{background:#e2f1e9;color:#155b48;font-weight:650}aside small{display:block;margin:18px 14px;color:var(--muted)}main{padding:28px;max-width:1500px;width:100%;margin:0 auto}h2{font-size:26px;margin:0 0 4px}h3{font-size:16px;margin:0 0 12px}p{margin:6px 0 14px}.muted,small{color:var(--muted)}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0}.toolbar label{font-size:13px;color:var(--muted)}select,input,textarea{border:1px solid var(--line);border-radius:7px;background:white;padding:8px;color:var(--ink);min-width:0}select{padding:9px}.notice{background:#fff;border:1px solid var(--line);border-left:4px solid #ad8d42;padding:12px 16px;border-radius:8px;margin:14px 0;color:#4e5c55;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}.panel,.kpi{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}.kpi .val{font-size:31px;font-weight:650;letter-spacing:-1px;margin:10px 0 0}.kpi small{display:block;font-size:12px}.panel{margin-bottom:16px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #e9eeeb;vertical-align:top}th{font-size:12px;color:var(--muted);font-weight:600;background:#f7f9f8}td.num{text-align:right;font-variant-numeric:tabular-nums}td input{width:104px}td input.source{width:170px}td input.remark{width:185px}.progress{height:7px;background:#e4ebe7;border-radius:10px;overflow:hidden;min-width:90px}.progress span{display:block;height:100%;background:#348b70}.sectionlink{font-weight:600;color:var(--green);border:0;background:transparent;padding:0}.record{border:1px solid var(--line);border-radius:8px;margin:12px 0;padding:14px}.recordgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.recordgrid label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}textarea{resize:vertical;min-height:65px;width:100%}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.chart{display:flex;align-items:end;gap:7px;height:165px;padding:15px 0 0}.barcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;min-width:0}.bar{width:65%;background:#439a7b;border-radius:4px 4px 0 0;min-height:2px}.bar.missing{background:transparent;border:1px dashed #ccd8d1;height:6px}.barcol small{font-size:10px}.barcol b{font-size:11px}.hide{display:none!important}#status{font-size:13px;color:var(--green)}@media(max-width:800px){.layout{display:block}aside{display:flex;overflow:auto;padding:8px;gap:4px;border-bottom:1px solid var(--line)}aside button{width:auto;white-space:nowrap;padding:9px}aside small{display:none}main{padding:16px}header{padding:16px}header h1{font-size:20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .val{font-size:24px}}@media print{aside,.toolbar,header .tag,.edit-only,button{display:none!important}.layout{display:block}main{padding:0}.panel,.kpi{break-inside:avoid}body{background:white}}
+</style></head><body><header><div><h1>ESGHub</h1><p>Community Care · HQ reporting workspace · FY2026</p></div><span class="tag">Local prototype</span></header><div class="layout"><aside id="nav"></aside><main><h2 id="heading"></h2><p class="muted" id="subtitle"></p><div class="toolbar"><label for="period">Period</label><select id="period"></select><button id="edit" class="primary">Enter data</button><button id="export">Export CSV</button><button id="backup">Save backup</button><button id="restore">Import backup</button><input type="file" id="file" accept="application/json" hidden><button onclick="window.print()">Print view</button><span id="status" role="status"></span></div><div class="notice">Local demonstration only. Data stays in this browser. Enter approved aggregate figures only, not names, member IDs, or confidential details. Blank means unavailable. Zero means a confirmed zero.</div><div id="content"></div></main></div><script>
+const catalog={
+  "metrics": [
+    {
+      "id": "programmes",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total community programmes / activities",
+      "unit": "Number",
+      "range": "E:P (row 9)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "outreach",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total Individuals reached (Outreach)",
+      "unit": "Headcount",
+      "range": "E:P (row 10)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "beneficiary_attendance",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total beneficiaries / recipients supported",
+      "unit": "Headcount",
+      "range": "E:P (row 11)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Confirm reporting scope before importing."
+    },
+    {
+      "id": "beneficiary_people",
+      "section": "Community Care",
+      "group": "Community programmes and beneficiaries",
+      "label": "Total beneficiaries / recipients supported",
+      "unit": "People",
+      "range": "E:P (row 12)",
+      "rule": "sum",
+      "source": "CaritaHub / verified completed activities",
+      "note": "Workbook sums monthly people counts; not annual unique people."
+    },
+    {
+      "id": "outreach_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Outreach · Male",
+      "unit": "Headcount",
+      "range": "G,I,…,AC (row 17)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Outreach · Female",
+      "unit": "Headcount",
+      "range": "H,J,…,AD (row 17)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (headcount) · Male",
+      "unit": "Headcount",
+      "range": "G,I,…,AC (row 18)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (headcount) · Female",
+      "unit": "Headcount",
+      "range": "H,J,…,AD (row 18)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_people_male",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (people) · Male",
+      "unit": "People",
+      "range": "G,I,…,AC (row 19)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_female",
+      "section": "Community Care",
+      "group": "Gender breakdown",
+      "label": "Beneficiaries (people) · Female",
+      "unit": "People",
+      "range": "H,J,…,AD (row 19)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "outreach_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Children 0-14",
+      "unit": "Headcount",
+      "range": "D:O (row 24)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Youth 15-35",
+      "unit": "Headcount",
+      "range": "D:O (row 25)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Adults 36-49",
+      "unit": "Headcount",
+      "range": "D:O (row 26)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Young Seniors 50-64",
+      "unit": "Headcount",
+      "range": "D:O (row 27)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "outreach_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Outreach · Seniors ≥65",
+      "unit": "Headcount",
+      "range": "D:O (row 28)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Children 0-14",
+      "unit": "Headcount",
+      "range": "D:O (row 32)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Youth 15-35",
+      "unit": "Headcount",
+      "range": "D:O (row 33)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Adults 36-49",
+      "unit": "Headcount",
+      "range": "D:O (row 34)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Young Seniors 50-64",
+      "unit": "Headcount",
+      "range": "D:O (row 35)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_attendance_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (headcount) · Seniors ≥65",
+      "unit": "Headcount",
+      "range": "D:O (row 36)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": ""
+    },
+    {
+      "id": "beneficiary_people_age_0",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Children 0-14",
+      "unit": "People",
+      "range": "D:O (row 40)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_1",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Youth 15-35",
+      "unit": "People",
+      "range": "D:O (row 41)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_2",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Adults 36-49",
+      "unit": "People",
+      "range": "D:O (row 42)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_3",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Young Seniors 50-64",
+      "unit": "People",
+      "range": "D:O (row 43)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "beneficiary_people_age_4",
+      "section": "Community Care",
+      "group": "Age group breakdown",
+      "label": "Beneficiaries (people) · Seniors ≥65",
+      "unit": "People",
+      "range": "D:O (row 44)",
+      "rule": "sum",
+      "source": "CaritaHub / verified outreach records",
+      "note": "Monthly counts; FY sum is not annual distinct people."
+    },
+    {
+      "id": "eco_points",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Number of collection / Eco points",
+      "unit": "Number",
+      "range": "E:P (row 49)",
+      "rule": "december",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_education",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Eco-Mission educational activities / sessions",
+      "unit": "Number",
+      "range": "E:P (row 50)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_education_reach",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Participants / persons reached",
+      "unit": "Number",
+      "range": "E:P (row 51)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_events",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Eco-Point activities / collection events",
+      "unit": "Number",
+      "range": "E:P (row 52)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "eco_reach",
+      "section": "Community Care",
+      "group": "Eco-Mission and Eco-Point",
+      "label": "Residents / persons reached (eco point)",
+      "unit": "Number",
+      "range": "E:P (row 53)",
+      "rule": "sum",
+      "source": "Eco-Mission / Eco-Point records",
+      "note": ""
+    },
+    {
+      "id": "recycle_0",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Paper",
+      "unit": "kg",
+      "range": "E:P (row 58)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_1",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Plastic",
+      "unit": "kg",
+      "range": "E:P (row 59)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_2",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Glass",
+      "unit": "kg",
+      "range": "E:P (row 60)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_3",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Metal",
+      "unit": "kg",
+      "range": "E:P (row 61)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_4",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "E-waste",
+      "unit": "kg",
+      "range": "E:P (row 62)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "recycle_5",
+      "section": "Community Care",
+      "group": "Recyclables collected",
+      "label": "Others (please specify)",
+      "unit": "kg",
+      "range": "E:P (row 63)",
+      "rule": "sum",
+      "source": "Recycling collection records",
+      "note": ""
+    },
+    {
+      "id": "active_volunteers",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total active volunteers",
+      "unit": "Number",
+      "range": "E:P (row 9)",
+      "rule": "december",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_hours",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total volunteer hours",
+      "unit": "Hours",
+      "range": "E:P (row 10)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "training_hours",
+      "section": "Volunteers",
+      "group": "Annual summary",
+      "label": "Total volunteer training hours",
+      "unit": "Hours",
+      "range": "E:P (row 11)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_0_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Children 0-14 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 21)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_0_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Children 0-14 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 21)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_1_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Youth 15-35 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 22)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_1_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Youth 15-35 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 22)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_2_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Adults 36-49 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 23)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_2_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Adults 36-49 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 23)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_3_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Young Seniors 50-64 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 24)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_3_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Young Seniors 50-64 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 24)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_4_male",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Seniors ≥65 · Male",
+      "unit": "Number",
+      "range": "G,I,…,AC (row 25)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "volunteer_age_4_female",
+      "section": "Volunteers",
+      "group": "Age group by gender",
+      "label": "Seniors ≥65 · Female",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 25)",
+      "rule": "sum",
+      "source": "Volunteer records",
+      "note": "Non-Tzu Chi volunteers or volunteers not captured in VMS only."
+    },
+    {
+      "id": "advocacy_activities",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Annual summary",
+      "label": "Total knowledge-sharing / advocacy activities",
+      "unit": "Number",
+      "range": "C (row 9)",
+      "rule": "annual",
+      "source": "Verified advocacy records",
+      "note": ""
+    },
+    {
+      "id": "advocacy_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Annual summary",
+      "label": "Total persons reached, if available",
+      "unit": "Number",
+      "range": "C (row 10)",
+      "rule": "annual",
+      "source": "Verified advocacy records",
+      "note": ""
+    },
+    {
+      "id": "channel_0_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Newsletter · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 14)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_0_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Newsletter · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 14)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_1_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Email / direct communication · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 15)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_1_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Email / direct communication · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 15)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_2_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Survey · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 16)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_2_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Survey · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 16)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_3_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Physical event / workshop · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 17)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_3_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Physical event / workshop · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 17)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_4_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Public talk / seminar · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 18)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_4_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Public talk / seminar · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 18)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_5_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Website / digital platform · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 19)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_5_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Website / digital platform · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 19)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_6_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Social media · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 20)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_6_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Social media · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 20)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_7_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Annual meeting / forum · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 21)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_7_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Annual meeting / forum · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 21)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_8_touchpoints",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Other (please specify) · No. of touch point",
+      "unit": "Number",
+      "range": "H,J,…,AD (row 22)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "channel_8_reach",
+      "section": "Knowledge Sharing & Advocacy",
+      "group": "Engagement channels",
+      "label": "Other (please specify) · No. of person reached",
+      "unit": "Number",
+      "range": "I,K,…,AE (row 22)",
+      "rule": "sum",
+      "source": "Channel records / verified publicity data",
+      "note": "Reach is not necessarily unique people."
+    },
+    {
+      "id": "collaborations",
+      "section": "Collaborative Programmes",
+      "group": "Annual summary",
+      "label": "Total jointly delivered programmes / initiatives",
+      "unit": "Number",
+      "range": "D (row 9)",
+      "rule": "annual",
+      "source": "External collaboration listing",
+      "note": ""
+    }
+  ],
+  "records": [
+    {
+      "id": "list_0",
+      "section": "Community Care",
+      "label": "Selected programme highlights",
+      "range": "B68:G72",
+      "fields": [
+        "Programme / Activity",
+        "Outreach",
+        "Beneficiaries",
+        "Brief Description",
+        "Key Outcome / Impact",
+        "Initiative Duration"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_1",
+      "section": "Community Care",
+      "label": "Community investment / charitable expenditure",
+      "range": "A76:C78",
+      "fields": [
+        "Amount (SGD)",
+        "Brief Description / Remarks"
+      ],
+      "limit": 3
+    },
+    {
+      "id": "list_2",
+      "section": "Volunteers",
+      "label": "Selected volunteer / training highlights",
+      "range": "B30:E34",
+      "fields": [
+        "Activity / Training",
+        "No. of Volunteers",
+        "Brief Description",
+        "Key Outcome"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_3",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Selected knowledge sharing / advocacy highlights",
+      "range": "B27:F31",
+      "fields": [
+        "Activity / Initiative",
+        "Target Audience",
+        "Topic / Description",
+        "Participants Reached / Outcome",
+        "Initiative Duration"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_4",
+      "section": "Collaborative Programmes",
+      "label": "Selected collaborative programmes",
+      "range": "B13:E17",
+      "fields": [
+        "Programme / Initiative",
+        "Partner Organisation(s)",
+        "Brief Description (Case Study)",
+        "Beneficiaries / Key Outcome (Case Study)"
+      ],
+      "limit": 5
+    },
+    {
+      "id": "list_5",
+      "section": "Partnerships",
+      "label": "Active partner organisations",
+      "range": "B10:D29",
+      "fields": [
+        "Partner Name",
+        "Start Date"
+      ],
+      "limit": 20
+    },
+    {
+      "id": "list_6",
+      "section": "Partnerships",
+      "label": "Awards & accolades",
+      "range": "B33:D39",
+      "fields": [
+        "Award / Recognition",
+        "Awarding Organisation",
+        "Date"
+      ],
+      "limit": 7
+    },
+    {
+      "id": "list_7",
+      "section": "Stakeholder Engagement",
+      "label": "Employees",
+      "range": "A9:D17",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_8",
+      "section": "Stakeholder Engagement",
+      "label": "Volunteers",
+      "range": "A19:D27",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_9",
+      "section": "Stakeholder Engagement",
+      "label": "Beneficiaries / Recipients",
+      "range": "A29:D37",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_10",
+      "section": "Stakeholder Engagement",
+      "label": "Donors / Sponsors",
+      "range": "A39:D47",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_11",
+      "section": "Stakeholder Engagement",
+      "label": "Partners",
+      "range": "A49:D57",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_12",
+      "section": "Stakeholder Engagement",
+      "label": "Government / Regulators",
+      "range": "A59:D67",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_13",
+      "section": "Stakeholder Engagement",
+      "label": "Community / General Public",
+      "range": "A69:D77",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_14",
+      "section": "Stakeholder Engagement",
+      "label": "Others",
+      "range": "A79:D87",
+      "fields": [
+        "Stakeholder (please specify)",
+        "Engagement Approach / Channel",
+        "Key Topics / Feedback",
+        "Tzu-Chi’s Response / Outcome"
+      ],
+      "limit": 9
+    },
+    {
+      "id": "list_15",
+      "section": "Community Care",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A83",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_16",
+      "section": "Community Care",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A90",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_17",
+      "section": "Community Care",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A97",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_18",
+      "section": "Volunteers",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A39",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_19",
+      "section": "Volunteers",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A46",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_20",
+      "section": "Volunteers",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A53",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_21",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A36",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_22",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A43",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_23",
+      "section": "Knowledge Sharing & Advocacy",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A50",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_24",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · Why is this topic material?",
+      "range": "A22",
+      "fields": [
+        "Why is this topic material?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_25",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · What policies, guidelines or processes are in place?",
+      "range": "A29",
+      "fields": [
+        "What policies, guidelines or processes are in place?"
+      ],
+      "limit": 1
+    },
+    {
+      "id": "list_26",
+      "section": "Collaborative Programmes",
+      "label": "Material topic information · What key initiatives or actions were implemented?",
+      "range": "A36",
+      "fields": [
+        "What key initiatives or actions were implemented?"
+      ],
+      "limit": 1
+    }
+  ],
+  "sections": [
+    "Community Care",
+    "Volunteers",
+    "Knowledge Sharing & Advocacy",
+    "Collaborative Programmes",
+    "Stakeholder Engagement",
+    "Partnerships"
+  ]
+};
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const key='esghub-fy2026-v1';let store={values:{},records:{}};try{const x=JSON.parse(localStorage.getItem(key)||'null');if(x&&x.values&&x.records)store=x}catch(e){}let page='Overview',period='FY',editing=false;const $=id=>document.getElementById(id);const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmt=x=>x===null?'—':x.toLocaleString('en-SG',{maximumFractionDigits:2});const valid=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0;function save(){try{localStorage.setItem(key,JSON.stringify(store));$('status').textContent='Saved locally'}catch(e){$('status').textContent='Not saved: browser storage unavailable'}}function get(m,p){return store.values[m.id]?.[p]||{}}function stat(m,p=period){if(m.rule==='annual'){let a=get(m,'FY');return {value:valid(a.value)?a.value:null,coverage:valid(a.value)?1:0,expected:1,note:'Annual input'}}let ids=p==='FY'?(m.rule==='december'?['12']:months.map((_,i)=>String(i+1))):[p];let nums=ids.map(i=>get(m,i).value).filter(valid);return {value:nums.length?nums.reduce((a,b)=>a+b,0):null,coverage:nums.length,expected:ids.length,note:m.rule==='december'&&p==='FY'?'December value':p==='FY'?'Monthly sum':'Monthly input'}}function coverage(sec){let count=0,all=0;catalog.metrics.filter(m=>m.section===sec).forEach(m=>{let r=stat(m);count+=r.coverage;all+=r.expected});return {count,all}}function renderNav(){$('nav').innerHTML=['Overview',...catalog.sections].map(s=>`<button class="${s===page?'active':''}" data-page="${esc(s)}">${esc(s)}</button>`).join('')+'<small>Reporting scope: consolidated Community Care figures</small>';document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{page=b.dataset.page;render()})}function render(){renderNav();$('heading').textContent=page==='Overview'?'Reporting overview':page;$('subtitle').textContent=page==='Overview'?'View available ESG information and identify missing reporting fields.':'FY2026 template fields · consolidated Community Care';$('edit').textContent=editing?'View report':'Enter data';if(page==='Overview')overview();else section()}
+function overview(){const ids=['programmes','outreach','beneficiary_attendance','beneficiary_people','active_volunteers','volunteer_hours'];const cards=ids.map(id=>{const m=catalog.metrics.find(x=>x.id===id),r=stat(m);let title=id==='beneficiary_people'?'Beneficiaries (monthly people counts)':id==='beneficiary_attendance'?'Beneficiaries (headcount)':m.label;return `<div class="kpi"><small>${esc(title)}</small><div class="val">${fmt(r.value)}</div><small>${r.coverage}/${r.expected} inputs · ${esc(r.note)}</small></div>`}).join('');const m=catalog.metrics[0],vals=months.map((_,i)=>stat(m,String(i+1)).value),max=Math.max(1,...vals.filter(valid));const chart=vals.map((v,i)=>`<div class="barcol"><b>${v===null?'':fmt(v)}</b><div class="bar ${v===null?'missing':''}" style="height:${v===null?6:Math.max(2,v/max*110)}px"></div><small>${months[i]}</small></div>`).join('');$('content').innerHTML=`<div class="grid">${cards}</div><div class="panel"><h3>Community programmes by month</h3><div class="chart">${chart}</div><small>Full year context · dashed marks indicate missing months.</small></div><div class="panel"><h3>Reporting coverage</h3><p class="muted">Numeric input coverage for the selected period. Narrative records are tracked in their respective sections.</p><div class="tablewrap"><table><thead><tr><th>Section</th><th>Available inputs</th><th>Coverage</th></tr></thead><tbody>${catalog.sections.map(s=>{const r=coverage(s);return `<tr><td><button class="sectionlink" data-go="${esc(s)}">${esc(s)}</button></td><td>${r.all?r.count+' / '+r.all:'Narrative / lists'}</td><td>${r.all?`<div class="progress"><span style="width:${100*r.count/r.all}%"></span></div>`:'—'}</td></tr>`}).join('')}</tbody></table></div></div>`;document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{page=b.dataset.go;render()})}
+function section(){const ms=catalog.metrics.filter(m=>m.section===page),groups=[...new Set(ms.map(m=>m.group))];let html=page==='Volunteers'?'<div class="notice">Template scope: non-Tzu Chi volunteers only, or volunteers not captured in VMS.</div>':'';if(editing&&period==='FY'&&ms.some(m=>m.rule!=='annual'))html+='<div class="notice">Select a month to enter monthly figures. Annual-only fields remain editable in the full-year view.</div>';for(const group of groups){html+=`<div class="panel"><h3>${esc(group)}</h3><div class="tablewrap"><table><thead><tr><th>Indicator / unit</th><th>Value</th><th>Data source</th><th>Remarks / coverage</th></tr></thead><tbody>`;for(const m of ms.filter(m=>m.group===group)){const r=stat(m),p=m.rule==='annual'?'FY':period,entry=get(m,p),canEdit=editing&&(m.rule==='annual'||period!=='FY');const source=canEdit?`<input class="source" aria-label="Source" data-id="${m.id}" data-p="${p}" data-field="source" value="${esc(entry.source||'')}" placeholder="Source">`:esc(p==='FY'&&m.rule!=='annual'?'Monthly source records':entry.source||'');const rem=canEdit?`<input class="remark" aria-label="Remarks" data-id="${m.id}" data-p="${p}" data-field="remark" value="${esc(entry.remark||'')}" placeholder="Optional note">`:esc(entry.remark||'');html+=`<tr><td>${esc(m.label)}<br><small>${esc(m.unit)} · ${esc(m.range)}${m.note?'<br>'+esc(m.note):''}</small></td><td>${canEdit?`<input type="number" min="0" step="${['kg','Hours'].includes(m.unit)?'any':'1'}" aria-label="${esc(m.label)}" data-id="${m.id}" data-p="${p}" data-field="value" value="${valid(entry.value)?entry.value:''}" placeholder="Blank">`:fmt(r.value)}</td><td>${source}<br><small>Suggested: ${esc(m.source)}</small></td><td>${rem}<br><small>${r.coverage}/${r.expected} available · ${esc(r.note)}${r.coverage>0&&r.coverage<r.expected?' · Partial':''}</small></td></tr>`}html+='</tbody></table></div></div>'}
+for(const rec of catalog.records.filter(r=>r.section===page)){let rows=store.records[rec.id]||[];html+=`<div class="panel"><div class="row"><h3>${esc(rec.label)}</h3>${editing&&rows.length<rec.limit?`<button class="edit-only" data-add="${rec.id}">Add record</button>`:''}</div><small>Annual · Template ${esc(rec.range)}</small>`;if(!rows.length)html+='<p class="muted">No information entered.</p>';rows.forEach((r,i)=>{html+=`<div class="record"><div class="row"><small>Record ${i+1}</small>${editing?`<button data-remove="${rec.id}" data-index="${i}">Remove</button>`:''}</div><div class="recordgrid">${rec.fields.map((f,j)=>`<label>${esc(f)}${editing?`<textarea data-rec="${rec.id}" data-index="${i}" data-col="${j}" placeholder="Leave blank if unavailable">${esc(r[j]||'')}</textarea>`:`<span>${esc(r[j]||'—')}</span>`}</label>`).join('')}</div></div>`});html+='</div>'}$('content').innerHTML=html;document.querySelectorAll('[data-field]').forEach(el=>el.onchange=()=>{const {id,p,field}=el.dataset;if(field==='value'&&el.value!==''&&(!el.checkValidity()||!valid(Number(el.value)))){el.reportValidity();return}store.values[id]??={};store.values[id][p]??={};let entry=store.values[id][p];if(field==='value'){if(el.value==='')delete entry.value;else entry.value=Number(el.value)}else entry[field]=el.value;save()});document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{let r=catalog.records.find(x=>x.id===b.dataset.add);store.records[r.id]??=[];if(store.records[r.id].length<r.limit)store.records[r.id].push(r.fields.map(()=>''));save();render()});document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(confirm('Remove this record?')){store.records[b.dataset.remove].splice(Number(b.dataset.index),1);save();render()}});document.querySelectorAll('[data-rec]').forEach(el=>el.onchange=()=>{let d=el.dataset;store.records[d.rec][Number(d.index)][Number(d.col)]=el.value;save()})}
+function download(text,name,type){const a=document.createElement('a');const u=URL.createObjectURL(new Blob([text],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}function csvCell(v){let s=String(v??'');if(/^[\s]*[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}function exportCSV(){const rows=[['Section','Indicator','Unit','Period','Value','Source','Remarks','Template reference','Available inputs','Expected inputs']];for(const m of catalog.metrics){for(const p of m.rule==='annual'?['FY']:['FY',...months.map((_,i)=>String(i+1))]){const r=stat(m,p),a=get(m,p);rows.push([m.section,m.label,m.unit,p==='FY'?'FY2026':months[Number(p)-1],r.value,a.source||'',a.remark||'',m.range,r.coverage,r.expected])}}for(const rec of catalog.records){(store.records[rec.id]||[]).forEach((row,i)=>rec.fields.forEach((field,j)=>rows.push([rec.section,rec.label+' / '+field,'Text','FY2026',row[j]||'','','Record '+(i+1),rec.range,'',''])))}download('\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),'ESGHub_FY2026.csv','text/csv;charset=utf-8')}
+function validateBackup(obj){if(obj?.version!==1||!obj.data?.values||!obj.data?.records)throw Error('Invalid backup format');let clean={values:{},records:{}};for(const [id,entries] of Object.entries(obj.data.values)){const m=catalog.metrics.find(x=>x.id===id);if(!m||!entries||typeof entries!=='object')throw Error('Unknown metric');clean.values[id]={};for(const [p,v] of Object.entries(entries)){if(!(m.rule==='annual'?p==='FY':/^(?:[1-9]|1[012])$/.test(p))||!v||typeof v!=='object')throw Error('Invalid period');if(v.value!==undefined&&(!valid(v.value)||(!['kg','Hours'].includes(m.unit)&&!Number.isInteger(v.value))))throw Error('Invalid number');clean.values[id][p]={};if(v.value!==undefined)clean.values[id][p].value=v.value;for(const f of ['source','remark'])if(typeof v[f]==='string')clean.values[id][p][f]=v[f]}}for(const [id,rows] of Object.entries(obj.data.records)){const r=catalog.records.find(x=>x.id===id);if(!r||!Array.isArray(rows)||rows.length>r.limit||rows.some(x=>!Array.isArray(x)||x.length!==r.fields.length||x.some(y=>typeof y!=='string')))throw Error('Invalid record list');clean.records[id]=rows}return clean}
+$('period').innerHTML='<option value="FY">Full year 2026</option>'+months.map((m,i)=>`<option value="${i+1}">${m} 2026</option>`).join('');$('period').onchange=()=>{period=$('period').value;render()};$('edit').onclick=()=>{editing=!editing;if(editing&&page==='Overview')page=catalog.sections[0];render()};$('export').onclick=exportCSV;$('backup').onclick=()=>download(JSON.stringify({version:1,data:store},null,2),'ESGHub_backup.json','application/json');$('restore').onclick=()=>$('file').click();$('file').onchange=async()=>{try{const file=$('file').files[0];if(!file)return;const next=validateBackup(JSON.parse(await file.text()));if(confirm('Replace the current local data with this backup?')){store=next;save();render()}}catch(e){alert('Import failed: '+e.message)}finally{$('file').value=''}};render();
+</script></body></html>
