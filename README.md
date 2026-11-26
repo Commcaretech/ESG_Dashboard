@@ -2,23 +2,28 @@
 
 ESGHub is the private FY2026 reporting workspace for Tzu Chi Singapore Community Care. It covers the six assigned workbook tabs and a reporting overview. Approved HQ staff can review coverage, trace figures and export CSV. Editors can enter verified aggregate figures and annual reporting records.
 
-## Set up Supabase
 
-1. Create a dedicated Supabase project in an organisation-approved account and region. Keep the Data API enabled for the `public` schema. Keep `esghub_private` outside the exposed schemas.
-2. In **SQL Editor**, run [202611250001_esghub_phase1.sql](supabase/migrations/202611250001_esghub_phase1.sql) first, then [202611250002_fy2026_catalog.sql](supabase/migrations/202611250002_fy2026_catalog.sql). The first creates the schema, row-level security, server-stamped provenance and audit trail. The second populates the FY2026 definitions. Confirm that `reporting_years` contains FY2026 and that `metric_values` and `narrative_records` are empty. For a CLI-managed project, link the dedicated project and use `supabase db push` as an alternative. Apply each migration once.
-3. In **Authentication**, enable the email/password provider and email confirmations. Disable public sign-ups and anonymous sign-ins. Under **URL Configuration**, set **Site URL** to the approved Render HTTPS address once assigned. Add the exact production URL and `http://localhost:5173/` to **Redirect URLs** where needed. For a local-only test project, set Site URL to `http://localhost:5173/` before sending invitations. Start the app before opening invitation links. Configure an approved SMTP provider and verify delivery before inviting staff.
-4. Open **Authentication → Users → Add user → Send invitation**. Copy the invited user's UUID from the Users page. In SQL Editor, grant the required role. Substitute the UUID and use either `viewer` or `editor`.
+## Set up Neon
+
+1. In the Neon Console, create or select a dedicated project. Choose a branch and database for staging. Under **Postgres database → Data API**, enable the Data API with **Managed Better Auth**. Leave **Grant public schema access** unchecked. ESGHub's migration grants the required permissions. Keep the exposed schemas limited to `public`.
+2. In the Neon **SQL Editor**, select the same branch and database. Run [202611260001_esghub_phase1.sql](neon/migrations/202611260001_esghub_phase1.sql) first and [202611260002_fy2026_catalog.sql](neon/migrations/202611260002_fy2026_catalog.sql) second. Apply each once to a fresh destination. Confirm FY2026 exists and the reporting tables are empty. Under **Data API**, select **Refresh schema cache** after both migrations.
+3. In **Better Auth**, enable **Sign-in with Email**. Configure an approved email provider for password reset links and enable **Revoke sessions on password reset**. Add the exact Render HTTPS origin to the trusted domains. Enable localhost access only on the development branch for `http://localhost:5173`.
+4. Provision staff through Neon Auth administration. Use the Console if it exposes user creation, or use the documented branch Auth **Create user** operation in the Neon management API. Grant ESGHub access only after confirming the staff member's work email and Neon user ID. Give staff the ESGHub URL and have them use **Forgot password?** to set their own password via email. The deployed app has no registration form. Even if someone creates a Neon Auth account through the provider, it gives them no reporting access.
+5. Run the following as a database administrator, substituting the approved work email and the appropriate role (`viewer` or `editor`). Check that the statement returns the intended ID. Neon Auth admin status does not grant ESGHub access.
 
    ```sql
    insert into public.user_profiles (user_id, role)
-   values ('PASTE-INVITED-USER-UUID'::uuid, 'viewer')
-   on conflict (user_id) do update set role = excluded.role;
+   select id::text, 'viewer'
+   from neon_auth."user"
+   where lower(email) = lower('approved.staff@example.org')
+   on conflict (user_id) do update set role = excluded.role
+   returning user_id, role;
    ```
 
-5. Staff open the link to set a password and sign in with their work email. Remove the user's corresponding `user_profiles` row to revoke ESGHub access on subsequent requests. Use Supabase Auth administration to disable the Auth account if needed. Database administrators can review role and reporting changes in `public.change_audit`.
-6. From the project Connect dialog or settings, copy the **Project URL** and **Publishable key** beginning with `sb_publishable_`. Keep database credentials and secret/service-role keys out of Vite, the browser and Git.
+6. To revoke reporting access, remove that user's row from `public.user_profiles`. RLS applies on subsequent requests. Database administrators can review role and reporting changes in `public.change_audit`.
+7. Copy the **Auth Base URL** from Better Auth and the **Data API URL** from Data API. These are HTTPS endpoints for the browser. Use the same branch and database for both. Keep Postgres connection strings, Neon API keys and database credentials out of Vite variables and Git.
 
-[Supabase Auth configuration](https://supabase.com/docs/guides/auth/general-configuration) · [Inviting users](https://supabase.com/docs/guides/auth/users)
+[Neon Data API setup](https://neon.com/docs/data-api/get-started) · [Neon Auth administration](https://neon.com/docs/auth/guides/manage-auth-api) · [Neon Auth production checklist](https://neon.com/docs/auth/production-checklist)
 
 ## Run locally
 
@@ -29,7 +34,7 @@ Copy-Item .env.example .env.local
 npm.cmd ci
 ```
 
-Replace the placeholders in `.env.local` with the project URL and publishable key, then start Vite.
+Replace the placeholders in `.env.local` with the Neon Auth Base URL and Data API URL, then start Vite.
 
 ```powershell
 npm.cmd run dev -- --strictPort
@@ -44,21 +49,27 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
-The database suite runs the actual migrations in local PostgreSQL via PGlite with stand-ins for the Supabase Auth functions. Verify Auth emails and real Data API access in your own Supabase staging project before launch.
+The database suite runs the actual migrations in local PostgreSQL via PGlite with a stand-in for the Neon request identity function. Verify Auth emails and the Data API on your Neon staging branch before launch.
+
 
 ## Deploy to Render
 
-1. Push the source and lockfile to an approved private Git repository. Keep credentials, the workbook, CSV exports and reporting records outside Git. The root `dashboard.html` and `metric-catalog.json` are retained starter references. Deploy `dist` only.
-2. In Render, choose **New → Blueprint** and connect the repository with [render.yaml](render.yaml). Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`. For manual setup, choose **New → Static Site**, use Node 24.19.0 and build command `npm ci && npm run build`, and set publish directory to `dist`. Render serves the built files directly, so a start command is unnecessary. Rebuild after changing either variable.
-3. Add the Render HTTPS address to Supabase **Site URL** and **Redirect URLs**. The site shell is accessible by URL. Authentication and database RLS protect reporting data. If the organisation requires network restrictions on the site shell, configure Render access restrictions under a supported plan before rollout.
-4. In staging, test invitation acceptance, password reset and sign out. As an editor, enter a test-only zero and blank in separate months and check coverage and CSV after reloading. Confirm a viewer can read and cannot write. Confirm an authenticated user without a profile has no report access. Repeat the core staff flow on a phone. Use a separate production project for approved real data.
+1. Push the source and lockfile to an approved private Git repository. Keep credentials, the workbook, CSV exports and reporting records outside Git. Deploy `dist` only.
+2. In Render, choose **New → Blueprint** and connect the repository with [render.yaml](render.yaml). Set both `VITE_NEON_AUTH_URL` and `VITE_NEON_DATA_API_URL`. For manual setup, create a **Static Site**, use Node 24.19.0, build with `npm ci && npm run build` and publish `dist`. Remove the old Supabase build variables if replacing a service. Render serves the build directly. Rebuild after changing either URL.
+3. Add the actual Render origin to the trusted domains for the matching Neon branch. Verify sign-in, session renewal, sign-out and reset email on that origin. Test with a viewer, an editor and an authenticated account with no staff profile. Confirm that the browser works with the organisation's browser policies before rollout. The site shell is accessible by URL, and RLS gates report data.
 
-[Render Blueprint reference](https://render.com/docs/blueprint-spec) · [Render Static Sites](https://render.com/tutorials/web-service-vs-static-site/static-sites)
+[Render Static Sites](https://render.com/tutorials/web-service-vs-static-site/static-sites)
+
+## Switching an existing Supabase deployment
+
+The legacy SQL files under `supabase/migrations` remain as a reference for the source database. Apply the Neon migrations only on the destination. If the old Supabase database has saved reports, back it up and keep it available until a separate transfer is reconciled. This code change does not transfer live records. Preserve the reporting years, metric and narrative rows, source information, historical actor IDs and the audit trail when planning that transfer. Recreate staff accounts in Neon and assign roles against their new IDs. Supabase password hashes are incompatible with Neon managed Auth.
+
+[Neon migration guide](https://neon.com/docs/auth/migrate/from-supabase)
 
 ## Staff workflow
 
 - Choose a financial year and **Full year** or a month. Annual inputs and records remain visible with an annual label. Only FY2026 is configured initially.
-- Choose a month to enter monthly data. Select **Enter** or **Edit**, give the aggregate and its source, then save. Use zero only when confirmed. Clear a value to mark it unavailable and add remarks if appropriate. Reloading the browser requires signing in again because sessions are kept in memory.
+- Choose a month to enter monthly data. Select **Enter** or **Edit**, give the aggregate and its source, then save. Use zero only when confirmed. Clear a value to mark it unavailable and add remarks if appropriate. Sign out when you finish on a shared browser.
 - Use **Annual records** for reporting details, highlights, material topics, partnership and stakeholder lists, and sign-off. Record approval only after it occurs. Keep member names, IDs and individual records out of ESGHub. The workbook separately has fields for the names of staff who sign off.
 - **Export CSV** exports the current section or all sections from **Overview**. A full-year CSV includes monthly inputs and provenance for summed fields, December provenance for snapshots, and annual records. Treat downloads as internal reporting data.
 

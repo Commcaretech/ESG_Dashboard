@@ -10,21 +10,16 @@ test('migrations, report access, database validation and audit', async () => {
   const unapproved = '00000000-0000-4000-8000-000000000003';
   try {
     await db.exec(`
-      create role anon;
+      create role anonymous;
       create role authenticated;
       create schema auth;
-      grant usage on schema auth to anon, authenticated;
-      create table auth.users(id uuid primary key);
-      create function auth.uid() returns uuid language sql stable as $$
-        select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid;
+      grant usage on schema auth to anonymous, authenticated;
+      create function auth.user_id() returns text language sql stable as $$
+        select nullif(current_setting('request.jwt.claim.sub',true),'');
       $$;
-      create function auth.jwt() returns jsonb language sql stable as $$
-        select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb;
-      $$;
-      insert into auth.users values ('${editor}'),('${viewer}'),('${unapproved}');
     `);
-    const files = ['202611250001_esghub_phase1.sql','202611250002_fy2026_catalog.sql'];
-    for (const file of files) await db.exec(readFileSync(new URL('../supabase/migrations/'+file,import.meta.url),'utf8'));
+    const files = ['202611260001_esghub_phase1.sql','202611260002_fy2026_catalog.sql'];
+    for (const file of files) await db.exec(readFileSync(new URL('../neon/migrations/'+file,import.meta.url),'utf8'));
     const catalog = JSON.parse(readFileSync(new URL('../src/catalog.json',import.meta.url),'utf8'));
     assert.deepEqual((await db.query('select definition from public.metric_definitions order by metric_id')).rows.map((r: {definition: unknown}) => r.definition),
       [...catalog.metrics].sort((a,b) => a.id < b.id ? -1 : 1));
@@ -36,7 +31,7 @@ test('migrations, report access, database validation and audit', async () => {
       `insert into public.metric_values(year,catalog_version,scope,metric_id,period,value,source)
         values (2026,1,'community_care','${id}',${period},${value ?? 'null'},'${source}')`;
     const role = async (uid: string) => db.exec(`set role authenticated; set request.jwt.claim.sub = '${uid}';`);
-    await db.exec('set role anon');
+    await db.exec('set role anonymous');
     await assert.rejects(db.query(read), /permission denied/);
     await role(unapproved);
     assert.equal((await db.query('select * from public.reporting_years')).rows.length,0);
@@ -67,6 +62,10 @@ test('migrations, report access, database validation and audit', async () => {
     const audit = await db.query('select actor from public.change_audit where table_name = $1',['metric_values']);
     assert.equal(audit.rows.length,4);
     assert.ok(audit.rows.every((row: {actor: string}) => row.actor === editor));
+    await db.exec(`delete from public.user_profiles where user_id = '${editor}'`);
+    await role(editor);
+    assert.equal((await db.query(read)).rows.length,0);
+    await assert.rejects(db.exec(add('programmes',4,0)), /Editor permission required|row-level security/);
   } finally {await db.close();}
 });
 

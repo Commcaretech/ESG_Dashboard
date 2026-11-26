@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState, type FormEvent} from 'react';
-import type {SupabaseClient} from '@supabase/supabase-js';
+import type {ReportingClient} from './neon';
 import {Brand} from './Brand';
 import catalog from './catalog.json';
 import {allMonths, createReport, csv, display, hasChartData, key, months, type Metric, type MetricValue, type Narrative, type Provenance, type RecordDefinition, type Result} from './report';
@@ -16,7 +16,7 @@ type Year = {year: number; catalog_version: number};
 type Report = {year: number; values: MetricValue[]; narratives: Narrative[]};
 type Edit = {metric: Metric; period: number} | {definition: RecordDefinition; slot: number};
 
-async function loadReport(client: SupabaseClient, year: number): Promise<Report> {
+async function loadReport(client: ReportingClient, year: number): Promise<Report> {
   async function rows<T>(table: string, columns: string, id: string, period: string) {
     const result: T[] = [];
     const size = 500;
@@ -35,7 +35,7 @@ async function loadReport(client: SupabaseClient, year: number): Promise<Report>
   return {year, values, narratives};
 }
 
-export function Dashboard({client, editor, signOut}: {client: SupabaseClient; editor: boolean; signOut: () => void}) {
+export function Dashboard({client, editor, signOut}: {client: ReportingClient; editor: boolean; signOut: () => void}) {
   const [page, setPage] = useState('Overview');
   const [year, setYear] = useState(2026);
   const [period, setPeriod] = useState(0);
@@ -57,7 +57,7 @@ export function Dashboard({client, editor, signOut}: {client: SupabaseClient; ed
       if (!active) return;
       if (error) setError(true);
       else setYears(data ?? []);
-    });
+    }, () => {if (active) setError(true);});
     return () => {active = false;};
   }, [client, attempt]);
 
