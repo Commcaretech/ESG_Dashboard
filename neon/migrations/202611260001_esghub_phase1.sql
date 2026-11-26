@@ -1,4 +1,16 @@
 begin;
+
+do $$
+begin
+  if to_regrole('authenticated') is null
+    or to_regrole('anonymous') is null
+    or to_regprocedure('auth.user_id()') is null then
+    raise exception 'Neon Data API prerequisites are missing for database %', current_database()
+      using hint = 'Enable Data API with Managed Better Auth on this branch and database, then rerun this migration.';
+  end if;
+end;
+$$;
+
 create schema if not exists esghub_private;
 revoke all on schema esghub_private from public;
 grant usage on schema public to authenticated;

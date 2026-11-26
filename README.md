@@ -25,7 +25,22 @@ ESGHub is the private FY2026 reporting workspace for Tzu Chi Singapore Community
 
 [Neon Data API setup](https://neon.com/docs/data-api/get-started) · [Neon Auth administration](https://neon.com/docs/auth/guides/manage-auth-api) · [Neon Auth production checklist](https://neon.com/docs/auth/production-checklist)
 
+### If the schema migration says the Neon Data API prerequisites are missing
+
+Click **ROLLBACK** in SQL Editor if it shows a failed transaction. In the Data API page, verify that the API is enabled with Managed Better Auth for the same branch and database selected in SQL Editor. Then run this check in SQL Editor:
+
+```sql
+select current_database() as database_name,
+       to_regrole('authenticated') is not null as authenticated_role_exists,
+       to_regrole('anonymous') is not null as anonymous_role_exists,
+       to_regprocedure('auth.user_id()') is not null as request_identity_exists;
+```
+
+All three checks should return `true`. If any return `false`, confirm the branch and database in both pages before retrying. Neon provisions these roles and the request identity function through the Data API. Once the checks pass, rerun the schema migration, then the FY2026 catalogue migration.
+
 ## Run locally
+
+If sign-in or password reset shows **Invalid origin**, check the branch connected to `VITE_NEON_AUTH_URL`. On a Neon development branch, enable **Allow Localhost** under **Settings → Better Auth**, then open ESGHub at `http://localhost:5173/`. For Render, add the exact HTTPS origin under **Better Auth → Configuration → Domains**, with no trailing slash. [Neon trusted domains](https://neon.com/docs/auth/guides/configure-domains)
 
 Install Node.js 24. From the repository root on Windows PowerShell:
 

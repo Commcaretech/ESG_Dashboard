@@ -3,6 +3,17 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {PGlite} from '@electric-sql/pglite';
 
+const schemaMigration = readFileSync(new URL('../neon/migrations/202611260001_esghub_phase1.sql',import.meta.url),'utf8');
+
+test('schema migration gives setup guidance before creating objects when the Data API is missing', async () => {
+  const db = new PGlite();
+  try {
+    await assert.rejects(db.exec(schemaMigration), /Neon Data API prerequisites are missing/);
+    await db.exec('rollback');
+    assert.deepEqual((await db.query("select to_regclass('public.user_profiles') as profiles")).rows,[{profiles:null}]);
+  } finally {await db.close();}
+});
+
 test('migrations, report access, database validation and audit', async () => {
   const db = new PGlite();
   const editor = '00000000-0000-4000-8000-000000000001';
@@ -18,8 +29,8 @@ test('migrations, report access, database validation and audit', async () => {
         select nullif(current_setting('request.jwt.claim.sub',true),'');
       $$;
     `);
-    const files = ['202611260001_esghub_phase1.sql','202611260002_fy2026_catalog.sql'];
-    for (const file of files) await db.exec(readFileSync(new URL('../neon/migrations/'+file,import.meta.url),'utf8'));
+    await db.exec(schemaMigration);
+    await db.exec(readFileSync(new URL('../neon/migrations/202611260002_fy2026_catalog.sql',import.meta.url),'utf8'));
     const catalog = JSON.parse(readFileSync(new URL('../src/catalog.json',import.meta.url),'utf8'));
     assert.deepEqual((await db.query('select definition from public.metric_definitions order by metric_id')).rows.map((r: {definition: unknown}) => r.definition),
       [...catalog.metrics].sort((a,b) => a.id < b.id ? -1 : 1));

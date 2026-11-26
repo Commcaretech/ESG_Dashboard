@@ -53,7 +53,10 @@ function App({client}: {client: ReportingClient}) {
       }
     } catch (error) {
       const detail = error && typeof error === 'object' && 'message' in error ? String(error.message) : '';
-      setMessage(detail || 'Authentication could not be completed.');
+      const code = error && typeof error === 'object' && 'code' in error ? error.code : '';
+      setMessage(code === 'INVALID_ORIGIN' || /^invalid origin\.?$/i.test(detail)
+        ? `Neon Auth rejected ${location.origin}. Ask your ESGHub administrator to allow this address in Neon Auth settings.`
+        : detail || 'Authentication could not be completed.');
     } finally {setBusy(false);}
   }
 
